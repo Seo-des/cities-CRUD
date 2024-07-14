@@ -35,6 +35,7 @@ func (u *City) Create(ctx context.Context, db *sql.DB, in *cities.CityInput) err
 	u.Pb.Name = in.Name
 	
 	return nil
+}
 
 func (u *City) Delete(ctx context.Context, db *sql.DB, in *cities.Id) error {
 	query := `DELETE FROM cities WHERE id = $1;`
