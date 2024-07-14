@@ -3,6 +3,7 @@ package models
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"unsia/pb/cities"
 )
 
@@ -34,3 +35,27 @@ func (u *City) Create(ctx context.Context, db *sql.DB, in *cities.CityInput) err
 	u.Pb.Name = in.Name
 	
 	return nil
+
+func (u *City) Delete(ctx context.Context, db *sql.DB, in *cities.Id) error {
+	query := `DELETE FROM cities WHERE id = $1;`
+	stmt, err := db.PrepareContext(ctx, query)
+	if err != nil {
+		return err
+	}
+
+	rs, err:= stmt.ExecContext(ctx, in.Id)
+	if err != nil {
+		return err
+	}
+
+	affected, err := rs.RowsAffected()
+	if err != nil {
+		return err
+	}
+
+	if affected == 0 {
+	return fmt.Errorf("DATA NOT FOUND")
+	}
+
+	return nil
+}
