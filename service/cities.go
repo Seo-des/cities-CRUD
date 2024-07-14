@@ -21,3 +21,8 @@ func (s *City) GetCity(ctx context.Context, in *cities.Id) (*cities.City, error)
 	return &cityModel.Pb, err
 }
 
+func (s *City) Create(ctx context.Context, in *cities.CityInput) (*cities.City, error) {
+	var cityModel  models.City
+	err := cityModel.Create(ctx, s.DB, in)
+	return &cityModel.Pb, err
+}
